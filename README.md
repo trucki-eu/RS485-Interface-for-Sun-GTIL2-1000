@@ -1,6 +1,7 @@
 # RS485-Interface-for-Sun-GTIL2-1000
 RS485 Modbus Interface for SUN GTIL2-1000 MPPT inverter:
 ---------------------------------------------------------
+![RS485 Interface](/assets/images/RS485_Interface.jpg)
 The GTIL2 RS485 Interface can be used to control the SUN GTIL2-1000 MPPT inverter via Modbus RS485. The interface is connected between the inverter and the inverter display (4Pin JST2.54). The AC output of the inverter is controlled with a DAC[0..1.65V] via the analog input (RT1, 2Pin JST2.54). The RS485 interface is powered by the 12V power supply for the display. The DAC and the display communication line are electrical isolated from the RS485 interface and the microcontroller. The analog DAC output and the display line input are protected by 3.3V suppressor diodes. All limit modes/ internal / external limiters in the stettings menu of the SUN GTIL2-1000 MPPT inverter have to be deactivated. The "Bat or soloar limited currect mode" has to be active with maximum current (35A @ 1000W).
 
 However the usage of this design is still at your own risk. Please make sure that the upper pin of the inverters ac output is connected to LIVE and the lower pin to NEUTRAL. Otherwise you risk to get shocked. I.e. by a pin of the connector for the internal limiter. 
