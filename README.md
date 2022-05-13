@@ -13,7 +13,7 @@ Mounting the RS485 interface pcb:
 Mouting the RS485 interface in the SUN GTIL2-1000 MPPT is easy. Just unscrew the 8x screws to open the inverter and disconect the the display cable on the inverter side. Mount two M4x10mm threaded standoff spacers in the prepared threads in the top area of the inverter. Mount the RS485 interface pcb with two spacers. Use a 1:1 4Pin 2.54mm JST cable to connect the inverter to the RS485 interface pcb and use the 2nd 4Pin connector on the RS485 interface pcb for the cable to the display. Use a 
 1:1 2Pin 2.54mm JST cable to connect the RS485 interface DAC output (RT1) to the analog RT1 input of the inverter. Disconnect the cable for the external/internal limiter from the inverter and connect it to the 2 Pin RS485 port of the RS485 interface pcb.
 
-<img src="/assets/images/Standoffs.jpg" height="600"> <img src="/assets/images/mounted-pcb.jpg" height="600">
+<img src="/assets/images/Standoffs.jpg" height="400"> <img src="/assets/images/mounted-pcb.jpg" height="400"> <img src="/assets/images/mounted with cables.jpg" height="400">
 
 
 Make sure to select the Modbus slave ID on the RS485 interface pcb with J1 - J4 before closing the case.
@@ -49,7 +49,7 @@ For a first test you can use a cheap USB RS485 converter stick from Ebay. Just c
 
 As PC software you can use any Modbus software. I.e. Modbus VCL from http://www.ozm.cz/ivobauer/modlink/In Modbus VCL first set the Modbus Client/Slave ID(J1-J4) unter "Tools->Modbus Client Options". 
 
-<img src="/assets/images/Modbus_VCL_Client Options.PNG" height="50">
+<img src="/assets/images/Modbus_VCL_Client Options.PNG" height="100">
 
 Use "Tools->Modbus Connection Options->Serial Communication" and select the Serial Port of the RS485 USB converter. Baud Rate: 9600, Data Bits: 8 bits, Parity: None, Stop Bits: 1bit, Transmission Mode: RTU, Flow Control: None, Enabled Lines: DTR,RTS both unchecked, Silent Interval: 4. On the Register card: "Modbus Transaction Management -> Connection Mode:" Client, Refetch Delay [ms]: 0,Send Timeout [ms]: 1000, Receive Timout[ms]: 1000, Maximum Retries: 1, Turnaround Delay [ms]: 100, Thread Priority: Normal. 
 
