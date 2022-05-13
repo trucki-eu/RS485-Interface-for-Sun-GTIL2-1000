@@ -6,15 +6,16 @@ The GTIL2 RS485 Interface can be used to control the SUN GTIL2-1000 MPPT inverte
 
 However the usage of this design is still at your own risk. Please make sure that the upper pin of the inverters ac output is connected to LIVE and the lower pin to NEUTRAL. Otherwise you risk to get shocked. I.e. by a pin of the connector for the internal limiter. 
 
-![AC-Connection](/assets/images/AC-Connection.jpg)
+<img src="/assets/images/AC-Connection.jpg" width="500">
 
 Mounting the RS485 interface pcb:
 ---------------------------------
 Mouting the RS485 interface in the SUN GTIL2-1000 MPPT is easy. Just unscrew the 8x screws to open the inverter and disconect the the display cable on the inverter side. Mount two M4x10mm threaded standoff spacers in the prepared threads in the top area of the inverter. Mount the RS485 interface pcb with two spacers. Use a 1:1 4Pin 2.54mm JST cable to connect the inverter to the RS485 interface pcb and use the 2nd 4Pin connector on the RS485 interface pcb for the cable to the display. Use a 
 1:1 2Pin 2.54mm JST cable to connect the RS485 interface DAC output (RT1) to the analog RT1 input of the inverter. Disconnect the cable for the external/internal limiter from the inverter and connect it to the 2 Pin RS485 port of the RS485 interface pcb.
 
-![Standoffs](/assets/images/Standoffs.jpg)
-![mounted-pcb](/assets/images/mounted-pcb.jpg)
+<img src="/assets/images/Standoffs.jpg" width="500">
+<img src="/assets/images/mounted-pcb.jpg" width="500">
+
 
 Make sure to select the Modbus slave ID on the RS485 interface pcb with J1 - J4 before closing the case.
 
