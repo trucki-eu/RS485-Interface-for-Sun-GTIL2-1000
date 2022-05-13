@@ -13,8 +13,7 @@ Mounting the RS485 interface pcb:
 Mouting the RS485 interface in the SUN GTIL2-1000 MPPT is easy. Just unscrew the 8x screws to open the inverter and disconect the the display cable on the inverter side. Mount two M4x10mm threaded standoff spacers in the prepared threads in the top area of the inverter. Mount the RS485 interface pcb with two spacers. Use a 1:1 4Pin 2.54mm JST cable to connect the inverter to the RS485 interface pcb and use the 2nd 4Pin connector on the RS485 interface pcb for the cable to the display. Use a 
 1:1 2Pin 2.54mm JST cable to connect the RS485 interface DAC output (RT1) to the analog RT1 input of the inverter. Disconnect the cable for the external/internal limiter from the inverter and connect it to the 2 Pin RS485 port of the RS485 interface pcb.
 
-<img src="/assets/images/Standoffs.jpg" width="500">
-<img src="/assets/images/mounted-pcb.jpg" width="500">
+<img src="/assets/images/Standoffs.jpg" height="600"> <img src="/assets/images/mounted-pcb.jpg" height="600">
 
 
 Make sure to select the Modbus slave ID on the RS485 interface pcb with J1 - J4 before closing the case.
@@ -46,54 +45,33 @@ After you powered the inverter you should see a slowly (1s) blinking green LED. 
 ---------------------------------------------
 For a first test you can use a cheap USB RS485 converter stick from Ebay. Just connect Pin B to the Pin of the internal limit connector which is next to the DC input. Pin A is the pin of the internal limit connector which is more away from the inverter DC input. The corresponding connector on the cables side is called: GX12-female.
 
-As PC software you can use any Modbus software. I.e. Modbus VCL from http://www.ozm.cz/ivobauer/modlink/In Modbus VCL first set the Modbus Client/Slave ID(J1-J4) unter "Tools->Modbus Client Options". Use "Tools->Modbus Connection Options->Serial Communication" and select the Serial Port of the RS485 USB converter. Baud Rate: 9600, Data Bits: 8 bits, Parity: None, Stop Bits: 1bit, Transmission Mode: RTU, Flow Control: None, Enabled Lines: DTR,RTS both unchecked, Silent Interval: 4. On the Register card: "Modbus Transaction Management -> Connection Mode:" Client, Refetch Delay [ms]: 0,Send Timeout [ms]: 1000, Receive Timout[ms]: 1000, Maximum Retries: 1, Turnaround Delay [ms]: 100, Thread Priority: Normal. After selecting all settings go to the register card: "Register Access" and enter unter "Register Read": "Start Address: 0" , "Count: 6" and hit "Read input Registers" .
+<img src="/assets/images/GTIL_with_USB_RS485_Interface.jpg" height="600">
 
-In the log window you should now see:
+As PC software you can use any Modbus software. I.e. Modbus VCL from http://www.ozm.cz/ivobauer/modlink/In Modbus VCL first set the Modbus Client/Slave ID(J1-J4) unter "Tools->Modbus Client Options". 
+
+<img src="/assets/images/Modbus_VCL_Client Options.PNG" height="50">
+
+Use "Tools->Modbus Connection Options->Serial Communication" and select the Serial Port of the RS485 USB converter. Baud Rate: 9600, Data Bits: 8 bits, Parity: None, Stop Bits: 1bit, Transmission Mode: RTU, Flow Control: None, Enabled Lines: DTR,RTS both unchecked, Silent Interval: 4. On the Register card: "Modbus Transaction Management -> Connection Mode:" Client, Refetch Delay [ms]: 0,Send Timeout [ms]: 1000, Receive Timout[ms]: 1000, Maximum Retries: 1, Turnaround Delay [ms]: 100, Thread Priority: Normal. 
+
+
+<img src="/assets/images/MOdbus_VCL_Connection Options.PNG" height="300"> <img src="/assets/images/Modbus_VCL_Transaction_Management.PNG" height="300">
+
+After selecting all settings go to the register card: "Register Access" and enter unter "Register Read": "Start Address: 0" , "Count: 6" and hit "Read input Registers" .In the log window you should now see:
+
+<img src="/assets/images/Modbus_VCL_Read_PNG.PNG" height="400">
   
-Connected to "COM4".
-
-[ID: 00021] INIT: Read Input Registers (code $04)
-
-[-------->] SEND: 01 04 00 00 00 06 70 08 
-
-[<--------] RECV: 01 04 0C 00 00 00 00 00 00 00 00 00 00 00 00 95 B7 
-
-[ID: 00021] DONE: Read Input Registers (code $04)
-
-[ID: 00021] PASS: Normal response
-
-6 input registers were processed.
-
-Value of input register 0 is 0    (AC setpoint  - read/write)
-
-Value of input register 1 is 0    (AC Display   - read)
-
-Value of input register 2 is 2263 (Grid voltage - read)
-
-Value of input register 3 is 455  (Bat voltage  - read)
-
-Value of input register 4 is 0    (DAC value    - read/write)
-
-Value of input register 5 is 0    (Calibration  - read/write)
-
-
 The available Modbus RTU commands / registers are:
 
-Register Funktion
+Register functions:
+| Reg| Description | Time |
+| -- | ----------- | ---- |
+| [0] | Set inverter AC output power | (Update rate ~100ms)|
+| [1] | Read display AC output power | (Update rate ~1.3s) |
+| [2] | Read display grid voltage | (Update rate ~1.3s) |
+| [3] | Read display battery | (Update rate ~1.3s) |
+| [4] | Set / Read DAC Value; [0]=0! | (Update rate ~100ms) |
+| [5] | =1 Start Calibration. 17 Steps | (10s per step) |
 
-[0] Set inverter AC output power (Update rate ~100ms)
-
-[1] Read display AC output power (Update rate ~1.3s)
-
-[2] Read display grid voltage    (Update rate ~1.3s)
-
-[3] Read display battery         (Update rate ~1.3s)
-
-[4] Set / Read DAC Value; [0]=0! (Update rate ~100ms)
-
-[5] =1 Start Calibration. 17 Steps (10s per Step)
-
-  
 You can use the "Register Write" section to manipulate the output of the SUN GTIL2-1000 MPPT inverter. To set an output of 50W use "Start Address: 0", "Count: 1", "Value: 500" and press "Write Single/Multiple Register(s)" . If you press "Read Input Registers" again you will see that Register[0] = 500 (Set AC Output) and Register[4] = 577 (DAC Value). Register[1] shows the AC display output power. After each display read (every 1.3s) Register[4] (DAC Value) will be corrected to adjust Register[1] (AC Display Power) as close as possible to the setpoint of Register[0] (Set AC Output). Set Register[0]=0 to turn OFF the ac output.
   
 Calibration:
@@ -103,27 +81,33 @@ In oder to get a fast (~100ms) AC output after a received modbus value on regist
 Standby:
 --------
 The 0W AC output standby power consuption of the SUN GTIL2-1000 MPPT inverter in analog mode is about 10W on the DC side. You can reduce the standby current by setting the "Bat or solar limited current mode" voltage and the "Reboot voltage". I use 47V and 48V reboot voltage for a 15S LiFePo4 battery. With this  setting standby consuption stops as soon as the battery is below 47V. Sometimes the RS485 interface showsa AC display output of 7-9W, but the display shows 0W. I think the inverter sends 7-9W to the display, but the display shows very small AC outputs as 0W.
+
+<img src="/assets/images/Display.jpg" height="400">
   
 Arduino:
 --------
 If you want to use an Arduino as Modbus Master to control the RS485 Interface pcb you can use the following lines:
-
-First include the ModbusMaster libary:
-
+```
+//First include the ModbusMaster libary:
 #include "ModbusMaster.h" //https://github.com/4-20ma/ModbusMaster
-Open the Serial Port your RS485 Inferce is connected: 
-Serial.begin(9600);              //open serial port
-node.begin(id, Serial);          //id=Modbus slave/client id of the RS485 interface pcb (Sun GTIL2)
-node.writeSingleRegister(0,500); //Write 50W AC outputpower to register[0]=500    
 
-node.readInputRegisters(0, 6);   //Read register[0-5]
-uint16_t set_ac_power = node.getResponseBuffer(0);
-uint16_t ac_power     = node.getResponseBuffer(1);
-uint16_t vgrid        = node.getResponseBuffer(2);
-uint16_t vbat         = node.getResponseBuffer(3);
-uint16_t dac          = node.getResponseBuffer(4);
-uint16_t cal_step     = node.getResponseBuffer(5);
-  
+void setup() {
+  Serial.begin(9600);                                 //open serial port
+  node.begin(id, Serial);                             //id=Modbus slave/client id of the RS485 interface pcb (Sun GTIL2)
+  node.writeSingleRegister(0,500);                    //Write 50W AC outputpower to register[0]=500    
+
+  node.readInputRegisters(0, 6);                      //Read register[0-5]
+  uint16_t set_ac_power = node.getResponseBuffer(0);
+  uint16_t ac_power     = node.getResponseBuffer(1);
+  uint16_t vgrid        = node.getResponseBuffer(2);
+  uint16_t vbat         = node.getResponseBuffer(3);
+  uint16_t dac          = node.getResponseBuffer(4);
+  uint16_t cal_step     = node.getResponseBuffer(5);
+}
+void loop() {
+}
+```
+
 UART instead of RS485
 ---------------------
 If you want to use the UART port instead of the RS485 port just unsolder resistor R19.The UART port can be used for a direct/cross connection to a i.e. ESP8266. Please be aware that the UART port is working with 5V.
