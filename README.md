@@ -58,7 +58,7 @@ Use "Tools->Modbus Connection Options->Serial Communication" and select the Seri
 
 After selecting all settings go to the register card: "Register Access" and enter unter "Register Read": "Start Address: 0" , "Count: 6" and hit "Read input Registers" .In the log window you should now see:
 
-<img src="/assets/images/Modbus_VCL_Read_PNG.PNG" height="400">
+<img src="/assets/images/Modbus_VCL_Read.PNG" height="400">
   
 The available Modbus RTU commands / registers are:
 
@@ -104,6 +104,7 @@ void setup() {
   uint16_t dac          = node.getResponseBuffer(4);
   uint16_t cal_step     = node.getResponseBuffer(5);
 }
+
 void loop() {
 }
 ```
@@ -123,10 +124,16 @@ If you connect a ISP Programmer to the ISP Port of the RS485 interface pcb you c
 Sketch->Upload with Programmer
   
 If you want to upload the firmware via the UART port:
+
 1)Remove R19 to use UART Port
+
 2)Connect GND,RX,TX,5V to a USB->TTL Adapter (i.e. CH340)
+
 3)Select Tools->Port: Com-Port of USB->TTL Adapter 
+
 4)Connect RST&GND Pin
+
 5)Press Sketch->Upload
+
 6)Release RST&GND Pin as soon as you see "Uploading..."
   
