@@ -80,7 +80,7 @@ In oder to get a fast (~100ms) AC output after a received modbus value on regist
   
 Standby:
 --------
-The 0W AC output standby power consuption of the SUN GTIL2-1000 MPPT inverter in analog mode is about 10W on the DC side. You can reduce the standby current by setting the "Bat or solar limited current mode" voltage and the "Reboot voltage". I use 47V and 48V reboot voltage for a 15S LiFePo4 battery. With this  setting standby consuption stops as soon as the battery is below 47V. Sometimes the RS485 interface showsa AC display output of 7-9W, but the display shows 0W. I think the inverter sends 7-9W to the display, but the display shows very small AC outputs as 0W.
+The 0W AC output standby power consuption of the SUN GTIL2-1000 MPPT inverter in analog mode is about 10W on the DC side. You can reduce the standby current by setting the "Bat or solar limited current mode" voltage and the "Reboot voltage". I use 47V and 48V reboot voltage for a 15S LiFePo4 battery. With this  setting standby consuption stops as soon as the battery is below 47V. Sometimes the RS485 interface shows an AC display output of 7-9W, but the display shows 0W. I think the inverter sends 7-9W to the display, but the display shows very small AC outputs as 0W.
 
 <img src="/assets/images/Display.jpg" height="400">
   
