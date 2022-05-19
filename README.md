@@ -109,8 +109,8 @@ void loop() {
 }
 ```
 
-UART instead of RS485
----------------------
+UART instead of RS485:
+----------------------
 If you want to use the UART port instead of the RS485 port just unsolder resistor R19.The UART port can be used for a direct/cross connection to a i.e. ESP8266. Please be aware that the UART port is working with 5V.
   
 Updates:
