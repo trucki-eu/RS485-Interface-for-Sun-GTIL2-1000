@@ -76,7 +76,14 @@ You can use the "Register Write" section to manipulate the output of the SUN GTI
   
 Calibration:
 ------------
-In oder to get a fast (~100ms) AC output after a received modbus value on register[0] the RS485 interface pcb has two (1000/2000W) lookuptables (LUT) to link the AC setpoint to a DAC value. Both LUTs consits of 17 DAC values with related AC values. The conversion from a AC setpoint to a DAC value is done by interpolation between the 17 LUT entries. Due to tolerances of the DAC, the 3.3 voltage regulator and the inverter itself the LUT is more or less accurate. As I only own the 1000W version, the LUT for the 2000W version might be wrong. To calibrate the LUT, write register[5]=1 and make sure that the DC supply of the inverter is strong enough to power the inverter at maximum output. The calibration will step the 17xDAC values of the LUT and save the matching AC values to the eeprom. Each step takes about 10s. The calibration is ready if register[5]=0 again.
+In oder to get a fast (~100ms) AC output after a received modbus value on register[0] the RS485 interface pcb has two (1000/2000W) lookuptables (LUT) to link the AC setpoint to a DAC value. Both LUTs consits of 17 DAC values with related AC values. The conversion from a AC setpoint to a DAC value is done by interpolation between the 17 LUT entries. The standard LUT for the SUN GTIL2-1000 looks like this: 
+
+| LUT No.   | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |  
+| --------- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| AC [W*10] | 370 | 420 | 470 | 520 | 550 | 600 | 670 | 750 | 800 | 940 | 1100 | 1250 | 1850 | 1950 | 3500 | 3510 | 9600 |
+| DAC | 279 | 400 | 514 | 620 | 680 | 775 | 895 | 1014 | 1079 | 1222 | 1315 | 1392 | 3282 | 3673 | 12180 | 12307 | 33187 |
+
+Due to tolerances of the DAC, the 3.3 voltage regulator and the inverter itself the LUT is more or less accurate. As I only own the 1000W version, the LUT for the 2000W version might be wrong. To calibrate the LUT, write register[5]=1 and make sure that the DC supply of the inverter is strong enough to power the inverter at maximum output. The calibration will first initialize the active LUT with the standard LUT (Step 1). Starting with Step 2 the calibration will step the 17xDAC values of the LUT and save the matching AC values to the eeprom. Each step takes about 10s. The calibration is ready if register[5]=0 again.
   
 Standby:
 --------
