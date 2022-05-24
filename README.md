@@ -126,7 +126,7 @@ Controlling the SUN GTIL2 from HomeAssistant:
 You can connect a ESP8266 Module to the UART Port an use i.e. HomeAssistant to communicate with the Sun GTIL2 inverter.
 The ESP8266 module has to be 5V tolerant and can directly be powered from the RS485 interface pcb. 
 
-<img src="/assets/images/ESP8266.PNG" height="100">
+<img src="/assets/images/ESP8266.PNG" height="300">
 
 In HomeAssistant use ESPHome to communicate with the ESP8266 module. Make sure that you are on the lastest version of ESPHome. Create a new device in ESPHome and add the folowing lines to the configuration of the new device:
 ```
@@ -220,7 +220,7 @@ number:
 ```
 After you have flashed the ESPHome configuration to your device you can create a new card in HomeAssistant which can look like this:
 
-<img src="/assets/images/HomeAssistant.PNG" height="100">
+<img src="/assets/images/HomeAssistant.png" height="300">
 
 Updates:
 --------
