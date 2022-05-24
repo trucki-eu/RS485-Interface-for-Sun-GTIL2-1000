@@ -218,7 +218,10 @@ number:
     min_value: 0
     max_value: 1
 ```
-  
+After you have flashed the ESPHome configuration to your device you can create a new card in HomeAssistant which can look like this:
+
+<img src="/assets/images/HomeAssistant.PNG" height="100">
+
 Updates:
 --------
 If you want to update the firmware on the ATm3ega328 on the RS485 interface pcb you can use the Arduinio ide.
