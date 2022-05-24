@@ -120,6 +120,104 @@ void loop() {
 UART instead of RS485:
 ----------------------
 If you want to use the UART port instead of the RS485 port just unsolder resistor R19.The UART port can be used for a direct/cross connection to a i.e. ESP8266. Please be aware that the UART port is working with 5V.
+
+Controlling the SUN GTIL2 from HomeAssistant:
+---------------------------------------------
+You can connect a ESP8266 Module to the UART Port an use i.e. HomeAssistant to communicate with the Sun GTIL2 inverter.
+The ESP8266 module has to be 5V tolerant and can directly be powered from the RS485 interface pcb. 
+
+<img src="/assets/images/ESP8266.PNG" height="100">
+
+In HomeAssistant use ESPHome to communicate with the ESP8266 module. Make sure that you are on the lastest version of ESPHome. Create a new device in ESPHome and add the folowing lines to the configuration of the new device:
+```
+# Enable logging
+logger:
+    level: DEBUG
+    baud_rate: 115200
+    hardware_uart: UART1 
+    
+uart:
+  id: mod_bus
+  tx_pin: 1
+  rx_pin: 3
+  baud_rate: 9600
+  stop_bits: 1
+  
+modbus:
+  #flow_control_pin: 5
+  id: modbus1  
+  
+modbus_controller:
+  - id: sun
+    ## the Modbus device addr
+    address: 0x1
+    modbus_id: modbus1
+    update_interval: 1s
+    setup_priority: -10
+    
+sensor:
+  - platform: modbus_controller
+    modbus_controller_id: sun
+    name: "AC Output"
+    id: ac_output
+    register_type: holding
+    address: 0x01
+    unit_of_measurement: "W"
+    value_type: U_WORD 
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1      
+  - platform: modbus_controller
+    modbus_controller_id: sun
+    name: "Grid Voltage"
+    id: grid_voltage
+    register_type: holding
+    address: 0x02
+    unit_of_measurement: "V"
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1      
+  - platform: modbus_controller
+    modbus_controller_id: sun
+    name: "Bat Voltage"
+    id: bat_voltage
+    register_type: holding
+    address: 0x03
+    unit_of_measurement: "V"
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+
+number:
+  - platform: modbus_controller
+    modbus_controller_id: sun
+    id: ac_setpoint_number
+    name: "AC Setpoint Number"
+    address: 0x00
+    value_type: U_WORD
+    multiply: 10    
+    unit_of_measurement: "W"
+    min_value: 0
+    max_value: 9600
+  - platform: modbus_controller
+    modbus_controller_id: sun
+    id: dac_number
+    name: "DAC Number"
+    address: 0x04
+    value_type: U_WORD
+    min_value: 0
+    max_value: 33187      
+  - platform: modbus_controller
+    modbus_controller_id: sun
+    id: calibration_number
+    name: "Calibration Number"
+    address: 0x05
+    value_type: U_WORD
+    min_value: 0
+    max_value: 1
+```
   
 Updates:
 --------
