@@ -91,40 +91,85 @@ Standby:
 The 0W AC output standby power consuption of the SUN GTIL2-1000 MPPT inverter in analog mode is about 10W on the DC side. You can reduce the standby current by setting the "Bat or solar limited current mode" voltage and the "Reboot voltage". I use 47V and 48V reboot voltage for a 15S LiFePo4 battery. With this  setting standby consuption stops as soon as the battery is below 47V. Sometimes the RS485 interface shows an AC display output of 7-9W, but the display shows 0W. I think the inverter sends 7-9W to the display, but the display shows very small AC outputs as 0W.
 
 <img src="/assets/images/Display.jpg" height="400">
-  
-Arduino:
---------
-If you want to use an Arduino as Modbus Master to control the RS485 Interface pcb you can use the following lines:
-```
-//First include the ModbusMaster libary:
-#include "ModbusMaster.h" //https://github.com/4-20ma/ModbusMaster
-
-void setup() {
-  Serial.begin(9600);                                 //open serial port
-  node.begin(id, Serial);                             //id=Modbus slave/client id of the RS485 interface pcb (Sun GTIL2)
-  node.writeSingleRegister(0,500);                    //Write 50W AC outputpower to register[0]=500    
-
-  node.readInputRegisters(0, 6);                      //Read register[0-5]
-  uint16_t set_ac_power = node.getResponseBuffer(0);
-  uint16_t ac_power     = node.getResponseBuffer(1);
-  uint16_t vgrid        = node.getResponseBuffer(2);
-  uint16_t vbat         = node.getResponseBuffer(3);
-  uint16_t dac          = node.getResponseBuffer(4);
-  uint16_t cal_step     = node.getResponseBuffer(5);
-}
-
-void loop() {
-}
-```
 
 UART instead of RS485:
 ----------------------
-If you want to use the UART port instead of the RS485 port just unsolder resistor R19.The UART port can be used for a direct/cross connection to a i.e. ESP8266. Please be aware that the UART port is working with 5V.
+If you want to use the UART port instead of the RS485 port just unsolder resistor R19.The UART port can be used for a direct/cross connection to a i.e. ESP8266. Please be aware that the UART port is working with 5V.  
+
+Arduino:
+--------
+You can combine a SoftwareSerial lib with the ModbusMaster lib (by Doc Walker) to control the RS485 Interface pcb. Connect the pins D8/D9 of the master Arduino to the UART Port. If you power the Arduino master from another power supply (i.e. PC USB) do not connect 5V to your master Arduino:
+
+<img src="/assets/images/Arduino.PNG" height="400">
+
+Flash the following code to your master Arduino. The master Arduino reads all registers every second and prints the results to the serial console.
+You can send the commands 'a', 'd' and 'c' to set an AC output Setpoint, to set a DAC value or to start a calibration. I.e. to set an AC output of 50W send 'a500'. To set a DAC value of 700 make sure that the ac output is zero and send 'd700'. To start a calibration make sure that ac output and dac value are zero and send 'c1'.
+
+The screenshot shows the Arduino terminal with the actual registers and an ac output command for 50W.
+
+<img src="/assets/images/arduino_terminal.PNG" height="400">
+
+```
+#include "ModbusMaster.h" //https://github.com/4-20ma/ModbusMaster - by DocWalker
+#include <AltSoftSerial.h>
+AltSoftSerial   mySerial(8, 9); // RX, TX             //SoftwareSerial for communication with Sun GTIL2 interface
+ModbusMaster    node;
+int             id = 1;                               //Modbus RTU slave id of Sun GTIL2 interface
+unsigned long   previousMillis_modbus = 0;            //Counter to next modbus poll
+//-----------------------------------------------------------------------------------------------------------------
+void setup() {
+  Serial.begin(9600);                                 //open serial port
+  mySerial.begin(9600);                               //SoftwareSerial for communication with Sun GTIL2 interface
+  node.begin(id, mySerial);                           //id=Modbus slave/client id of the interface pcb (Sun GTIL2)
+  Serial.println("Start");   
+}
+//-----------------------------------------------------------------------------------------------------------------
+void loop() { 
+  if ( (millis()-previousMillis_modbus) >= 1000){      //Get new values from Sun GTIL2 every 1000ms
+    uint8_t result = node.readInputRegisters(0, 6);    //Read register[0-5]
+    uint16_t set_ac_power = node.getResponseBuffer(0);
+    uint16_t ac_power     = node.getResponseBuffer(1);
+    uint16_t vgrid        = node.getResponseBuffer(2);
+    uint16_t vbat         = node.getResponseBuffer(3);
+    uint16_t dac          = node.getResponseBuffer(4);
+    uint16_t cal_step     = node.getResponseBuffer(5);   
+    
+    if (result == node.ku8MBSuccess) {                 //Serial print new values if received
+      Serial.print("Set AC [W*10]: ") ;Serial.println(set_ac_power );
+      Serial.print("AC     [W*10]: ") ;Serial.println(ac_power);   
+      Serial.print("VGrid  [V*10]: ") ;Serial.println(vgrid);       
+      Serial.print("VBat:  [V*10]: ") ;Serial.println(vbat);       
+      Serial.print("DAC:           ") ;Serial.println(dac);
+      Serial.print("CAL Step:      ") ;Serial.println(cal_step);
+      Serial.println();
+    } else Serial.println("Can not connect to Sun GTIL2 interface");     
+    previousMillis_modbus = millis();  
+  }
+  
+  if(Serial.available()){                              //Data received from PC
+        String   received_str = Serial.readStringUntil('\n');
+        String   my_float = received_str.substring(1);
+        uint16_t my_value = my_float.toFloat();
+        if(received_str[0] == 'a')                     //Send 'a500' to set ac output setpoint to 50W 
+          if ( (my_value >=0) && (my_value <= 20000) ) //Check if output power is in range (0-2000W)
+            node.writeSingleRegister(0,my_value);      //send new ac output setpoint via modbus rtu
+        if(received_str[0] == 'd')                     //Send 'd500' to set DAC value to 500
+          if ( (my_value >=0) && (my_value <= 33187) ) //Check if dac value is in range (0-33187W)
+            node.writeSingleRegister(4,my_value);        
+        if(received_str[0] == 'c')                     //Send 'c1' to start calibration; Send 'c99' for standard LUT
+          if ( (my_value >=0) && (my_value <= 99) )
+            node.writeSingleRegister(5,my_value);
+   }
+}
+//-----------------------------------------------------------------------------------------------------------------
+```
+
+
 
 Controlling the SUN GTIL2 from HomeAssistant:
 ---------------------------------------------
-You can connect a ESP8266 Module to the UART Port an use i.e. HomeAssistant to communicate with the Sun GTIL2 inverter.
-The ESP8266 module has to be 5V tolerant and can directly be powered from the RS485 interface pcb. 
+Connect a ESP8266 Module to the UART Port and use i.e. HomeAssistant to communicate with the Sun GTIL2 inverter.
+The ESP8266 module has to be 5V tolerant and is directly powered from the RS485 interface pcb. 
 
 <img src="/assets/images/ESP8266.PNG" height="300">
 
