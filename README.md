@@ -1,7 +1,7 @@
 # RS485-Interface-for-Sun-GTIL2-1000
 RS485 Modbus Interface for SUN GTIL2-1000 MPPT inverter:
 ---------------------------------------------------------
-![RS485 Interface](/assets/images/RS485_Interface.jpg)
+![Overview](/assets/images/overview.PNG)
 The GTIL2 RS485 Interface can be used to control the SUN GTIL2-1000 MPPT inverter via Modbus RS485. The interface is connected between the inverter and the inverter display (4Pin JST2.54). The AC output of the inverter is controlled with a DAC[0..1.65V] via the analog input (RT1, 2Pin JST2.54). The RS485 interface is powered by the 12V power supply for the display. The DAC and the display communication line are electrical isolated from the RS485 interface and the microcontroller. The analog DAC output and the display line input are protected by 3.3V suppressor diodes. All limit modes/ internal / external limiters in the stettings menu of the SUN GTIL2-1000 MPPT inverter have to be deactivated. The "Bat or soloar limited currect mode" has to be active with maximum current (35A @ 1000W).
 
 However the usage of this design is still at your own risk. Please make sure that the upper pin of the inverters ac output is connected to LIVE and the lower pin to NEUTRAL. Otherwise you risk to get shocked. I.e. by a pin of the connector for the internal limiter. 
@@ -10,6 +10,7 @@ However the usage of this design is still at your own risk. Please make sure tha
 
 Mounting the RS485 interface pcb:
 ---------------------------------
+![RS485 Interface](/assets/images/RS485_Interface.jpg)
 Mouting the RS485 interface in the SUN GTIL2-1000 MPPT is easy Plug'n Play. No soldering, no permanent modifications on the inverter. Just unscrew the 8x screws to open the inverter and disconect the the display cable on the inverter side. Mount two M4x10mm threaded standoff spacers in the prepared threads in the top area of the inverter. Mount the RS485 interface pcb with two spacers. Use a 1:1 4Pin 2.54mm JST cable to connect the inverter to the RS485 interface pcb and use the 2nd 4Pin connector on the RS485 interface pcb for the cable to the display. Use a 
 1:1 2Pin 2.54mm JST cable to connect the RS485 interface DAC output (RT1) to the analog RT1 input of the inverter. Disconnect the cable for the external/internal limiter from the inverter and connect it to the 2 Pin RS485 port of the RS485 interface pcb.
 
