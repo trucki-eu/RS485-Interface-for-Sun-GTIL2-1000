@@ -193,7 +193,11 @@ The console output should look like this:
 
 <img src="/assets/images/mbpoll_read.PNG" height="300">
 
-To set the inverter output to 50W use the following command. 
+To set the inverter output to 50W use the following command. If /dev/ttyS0 doesn't work try /dev/ttyAMA0 instead
+```
+mbpoll -a 01 -b 9600 -t4:int -r 1 /dev/ttyS0 -- 500
+```
+The console output should look like this:
 
 <img src="/assets/images/mbpoll_write.PNG" height="300">
 
