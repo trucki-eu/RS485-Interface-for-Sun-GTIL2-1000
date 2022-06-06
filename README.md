@@ -165,6 +165,37 @@ void loop() {
 //-----------------------------------------------------------------------------------------------------------------
 ```
 
+Raspberry:
+----------
+As the UART port of the Raspberry is NOT 5V tolerant you have to use a voltage divider on the Raspberry RXD line:
+
+<img src="/assets/images/Raspberry.PNG" height="300">
+
+MBPoll can be used as Modbus RTU Master on the Rasperry. To install MBPoll use the commands:
+```
+sudo apt update
+sudo apt install mbpoll
+```
+Make sure that Rasperry's UART port is enabled:
+```
+sudo raspi-config
+
+->Interfacing Options->P6 Serial
+-Would you like a login shell to be accessible over serial? --> NO
+-Would you like the serial port hardware to be enabled? --> YES
+-Finish raspi-config, yes, reboot!
+```
+To read values use the command. If /dev/ttyAMA0 doesn't work try /dev/ttyS0 instead
+```
+mbpoll -a 01 -b 9600 -t 3 -r 1 -c 6 /dev/ttyAMA0  
+```
+The console output should look like this:
+
+<img src="/assets/images/mbpoll_read.PNG" height="300">
+
+To set the inverter output to 50W use the following command. 
+
+<img src="/assets/images/mbpoll_write.PNG" height="300">
 
 
 Controlling the SUN GTIL2 from HomeAssistant:
