@@ -111,9 +111,32 @@ The screenshot shows the Arduino terminal with the actual registers and an ac ou
 <img src="/assets/images/arduino_terminal.PNG" height="400">
 
 ```
+/*----------------------------------------------------------------------------------------------------
+Modbus Master to test RS485 interface pcb for GTIL2 Sun 1000 Inverter
+This code is for a Modbus Master to test the RS485 GTIL2 interface PCB.
+It is NOT the code for the RS485 interface PCB
+
+Detailed description and screenshots: https://github.com/trucki-eu/RS485-Interface-for-Sun-GTIL2-1000#arduino
+
+Uncomment "AltSoftSerial"  lines for ATMega328P boards and
+          "SoftwareSerial" lines for ESP8266 boards
+
+If you use a ESP8266 Board connect
+ESP8266 Pin D1 -> TX Pin of the interface PCB
+ESP8266 Pin D2 -> RX Pin of the interface PCB
+ESP8266 GND    -> GND Pin of the interface PCB
+If your ESP8266 Board is powered via USB do not connect 5V
+Don't forget to remove R19 on the RS485 interface pcb if you use its UART port
+
+ */
+//------------------------------------------------------------------------------------------- 
+#include <AltSoftSerial.h>                            //Use for Atmega328p
+AltSoftSerial   mySerial(8, 9); // RX, TX             //Use for Atmega328p SoftwareSerial for communication with Sun GTIL2 interface
+
+//#include <SoftwareSerial.h>                             //Use for ESP8266
+//SoftwareSerial  mySerial(D1, D2); // RX, TX             //Use for ESP8266
+
 #include "ModbusMaster.h" //https://github.com/4-20ma/ModbusMaster - by DocWalker
-#include <AltSoftSerial.h>
-AltSoftSerial   mySerial(8, 9); // RX, TX             //SoftwareSerial for communication with Sun GTIL2 interface
 ModbusMaster    node;
 int             id = 1;                               //Modbus RTU slave id of Sun GTIL2 interface
 unsigned long   previousMillis_modbus = 0;            //Counter to next modbus poll
