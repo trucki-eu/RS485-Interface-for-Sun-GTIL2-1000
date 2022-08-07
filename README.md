@@ -99,6 +99,7 @@ If you want to use the UART port instead of the RS485 port just unsolder resisto
 
 Arduino:
 --------
+(A Zero export example with a SDM630 3-phase energy meter can be found here: https://github.com/trucki-eu/SDM630-zero-export-controller-Arduino- )
 You can combine a SoftwareSerial lib with the ModbusMaster lib (by Doc Walker) to control the RS485 Interface pcb. Connect the pins D8/D9 of the master Arduino to the UART Port. If you power the Arduino master from another power supply (i.e. PC USB) do not connect 5V to your master Arduino:
 
 <img src="/assets/images/Arduino.PNG" height="400">
