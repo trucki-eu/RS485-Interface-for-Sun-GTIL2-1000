@@ -1,9 +1,9 @@
 # RS485-Interface-for-Sun-GTIL2-1000/2000
 RS485 Modbus Interface for SUN GTIL2-1000/2000 MPPT inverter:
 ---------------------------------------------------------
-![Overview](/assets/images/overview.PNG)
-
 UPDATE 18.08.2022: The RS485 Interface pcb now works for the SUN GTIL2-2000 version, too. 
+
+![Overview](/assets/images/overview.PNG)
 
 The GTIL2 RS485 Interface can be used to control the SUN GTIL2-1000/2000 MPPT inverter via Modbus RS485. The interface is connected between the inverter and the inverter display (4Pin JST2.54). The AC output of the inverter is controlled with a DAC[0..1.65V] via the analog input (RT1, 2Pin JST2.54). The RS485 interface is powered by the 12V power supply for the display. The DAC and the display communication line are electrical isolated from the RS485 interface and the microcontroller. The analog DAC output and the display line input are protected by 3.3V suppressor diodes. All limit modes/ internal / external limiters in the stettings menu of the SUN GTIL2-1000/2000 MPPT inverter have to be deactivated. The "Bat or soloar limited currect mode" has to be active with maximum current (35A @ 1000W).
 
@@ -96,13 +96,19 @@ Due to tolerances of the DAC, the 3.3 voltage regulator and the inverter itself 
 The 2000W version is very similar to the GTIL2-1000 with some very minor particularities regarding the analog input connector RT1.
 In general both versions allow to control the AC ouput via a 0..1.67V signal. For the 1000W version the AC output (0-1000W)  is quite linear to the analog signal (0-1.67V).
 The 2000W version has a minimum AC output of 75W, which is related to 0V on the analog RT1 input. Means with the RS485 interface pcb an AC output with less than 75W is not possible. As stable control of the AC output is possible from ~100-2000W.
+
 ![LUT2000W](/assets/images/GTIL2_2000_RT1vsAC.PNG)
+
 Furthermore the 2000W version does some kind of range switching from ~180W-250W.
+
 ![Hystereses2000W](/assets/images/Hysterese_GTIL2_2000W.PNG)
+
 This means that AC outputs from 200W-250 are not possible and AC outputs from 180W-200W are only possible if the actual AC output is less than 200W.
 The RS485 interface pcb firmware overwrites AC setpoints from 200W-225W -> 200W and 225W-250W ->250W. If the actual AC output is > 200W the firmware overwrites AC setpoints from 180-200W -> 180W.
 For most applications these particularities are not disturbing. Using the RS485 interface pcb with a GTIL2-2000 and a 15S LiFePO4 battery I was able to a maximum stable AC output of ~2000W with the following settings:
+
 ![Settings2000W](/assets/images/Einstellungen_GTIL2_2000_150822.PNG) 
+
 ![Settings2000W](/assets/images/GTIL2_2000_AC_MAX.png)
 
 Standby:
