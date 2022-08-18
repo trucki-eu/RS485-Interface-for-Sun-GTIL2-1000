@@ -1,8 +1,11 @@
-# RS485-Interface-for-Sun-GTIL2-1000
-RS485 Modbus Interface for SUN GTIL2-1000 MPPT inverter:
+# RS485-Interface-for-Sun-GTIL2-1000/2000
+RS485 Modbus Interface for SUN GTIL2-1000/2000 MPPT inverter:
 ---------------------------------------------------------
 ![Overview](/assets/images/overview.PNG)
-The GTIL2 RS485 Interface can be used to control the SUN GTIL2-1000 MPPT inverter via Modbus RS485. The interface is connected between the inverter and the inverter display (4Pin JST2.54). The AC output of the inverter is controlled with a DAC[0..1.65V] via the analog input (RT1, 2Pin JST2.54). The RS485 interface is powered by the 12V power supply for the display. The DAC and the display communication line are electrical isolated from the RS485 interface and the microcontroller. The analog DAC output and the display line input are protected by 3.3V suppressor diodes. All limit modes/ internal / external limiters in the stettings menu of the SUN GTIL2-1000 MPPT inverter have to be deactivated. The "Bat or soloar limited currect mode" has to be active with maximum current (35A @ 1000W).
+
+UPDATE 18.08.2022: The RS485 Interface pcb now works for the SUN GTIL2-2000 version, too. 
+
+The GTIL2 RS485 Interface can be used to control the SUN GTIL2-1000/2000 MPPT inverter via Modbus RS485. The interface is connected between the inverter and the inverter display (4Pin JST2.54). The AC output of the inverter is controlled with a DAC[0..1.65V] via the analog input (RT1, 2Pin JST2.54). The RS485 interface is powered by the 12V power supply for the display. The DAC and the display communication line are electrical isolated from the RS485 interface and the microcontroller. The analog DAC output and the display line input are protected by 3.3V suppressor diodes. All limit modes/ internal / external limiters in the stettings menu of the SUN GTIL2-1000/2000 MPPT inverter have to be deactivated. The "Bat or soloar limited currect mode" has to be active with maximum current (35A @ 1000W).
 
 However the usage of this design is still at your own risk. Please make sure that the upper pin of the inverters ac output is connected to LIVE and the lower pin to NEUTRAL. Otherwise you risk to get shocked. I.e. by a pin of the connector for the internal limiter. 
 
@@ -11,7 +14,7 @@ However the usage of this design is still at your own risk. Please make sure tha
 Mounting the RS485 interface pcb:
 ---------------------------------
 ![RS485 Interface](/assets/images/RS485_Interface.jpg)
-Mouting the RS485 interface in the SUN GTIL2-1000 MPPT is easy Plug'n Play. No soldering, no permanent modifications on the inverter. Just unscrew the 8x screws to open the inverter and disconect the the display cable on the inverter side. Mount two M4x10mm threaded standoff spacers in the prepared threads in the top area of the inverter. Mount the RS485 interface pcb with two spacers. Use a 1:1 4Pin 2.54mm JST cable to connect the inverter to the RS485 interface pcb and use the 2nd 4Pin connector on the RS485 interface pcb for the cable to the display. Use a 
+Mouting the RS485 interface in the SUN GTIL2-1000/2000 MPPT is easy Plug'n Play. No soldering, no permanent modifications on the inverter. Just unscrew the 8x screws to open the inverter and disconect the the display cable on the inverter side. Mount two M4x10mm threaded standoff spacers in the prepared threads in the top area of the inverter. Mount the RS485 interface pcb with two spacers. Use a 1:1 4Pin 2.54mm JST cable to connect the inverter to the RS485 interface pcb and use the 2nd 4Pin connector on the RS485 interface pcb for the cable to the display. Use a 
 1:1 2Pin 2.54mm JST cable to connect the RS485 interface DAC output (RT1) to the analog RT1 input of the inverter. Disconnect the cable for the external/internal limiter from the inverter and connect it to the 2 Pin RS485 port of the RS485 interface pcb.
 
 <img src="/assets/images/Standoffs.jpg" height="400"> <img src="/assets/images/mounted-pcb.jpg" height="400"> <img src="/assets/images/mounted with cables.jpg" height="400">
@@ -73,7 +76,7 @@ Register functions:
 | [4] | Set / Read DAC Value; [0]=0! | (Update rate ~100ms) |
 | [5] | =1 Start Calibration. 17 Steps | (10s per step) |
 
-You can use the "Register Write" section to manipulate the output of the SUN GTIL2-1000 MPPT inverter. To set an output of 50W use "Start Address: 0", "Count: 1", "Value: 500" and press "Write Single/Multiple Register(s)" . If you press "Read Input Registers" again you will see that Register[0] = 500 (Set AC Output) and Register[4] = 577 (DAC Value). Register[1] shows the AC display output power. After each display read (every 1.3s) Register[4] (DAC Value) will be corrected to adjust Register[1] (AC Display Power) as close as possible to the setpoint of Register[0] (Set AC Output). Set Register[0]=0 to turn OFF the ac output.
+You can use the "Register Write" section to manipulate the output of the SUN GTIL2-1000/2000 MPPT inverter. To set an output of 50W use "Start Address: 0", "Count: 1", "Value: 500" and press "Write Single/Multiple Register(s)" . If you press "Read Input Registers" again you will see that Register[0] = 500 (Set AC Output) and Register[4] = 577 (DAC Value). Register[1] shows the AC display output power. After each display read (every 1.3s) Register[4] (DAC Value) will be corrected to adjust Register[1] (AC Display Power) as close as possible to the setpoint of Register[0] (Set AC Output). Set Register[0]=0 to turn OFF the ac output.
 The values of register[0-4] are multiplied with factor 10.
   
 Calibration:
@@ -89,7 +92,7 @@ Due to tolerances of the DAC, the 3.3 voltage regulator and the inverter itself 
   
 Standby:
 --------
-The 0W AC output standby power consuption of the SUN GTIL2-1000 MPPT inverter in analog mode is about 10W on the DC side. You can reduce the standby current by setting the "Bat or solar limited current mode" voltage and the "Reboot voltage". I use 47V and 48V reboot voltage for a 15S LiFePo4 battery. With this  setting standby consuption stops as soon as the battery is below 47V. Sometimes the RS485 interface shows an AC display output of 7-9W, but the display shows 0W. I think the inverter sends 7-9W to the display, but the display shows very small AC outputs as 0W.
+The 0W AC output standby power consuption of the SUN GTIL2-1000/2000 MPPT inverter in analog mode is about 10W on the DC side. You can reduce the standby current by setting the "Bat or solar limited current mode" voltage and the "Reboot voltage". I use 47V and 48V reboot voltage for a 15S LiFePo4 battery. With this  setting standby consuption stops as soon as the battery is below 47V. Sometimes the RS485 interface shows an AC display output of 7-9W, but the display shows 0W. I think the inverter sends 7-9W to the display, but the display shows very small AC outputs as 0W.
 
 <img src="/assets/images/Display.jpg" height="400">
 
@@ -114,7 +117,7 @@ The screenshot shows the Arduino terminal with the actual registers and an ac ou
 
 ```
 /*----------------------------------------------------------------------------------------------------
-Modbus Master to test RS485 interface pcb for GTIL2 Sun 1000 Inverter
+Modbus Master to test RS485 interface pcb for GTIL2 Sun 1000/2000 Inverter
 This code is for a Modbus Master to test the RS485 GTIL2 interface PCB.
 It is NOT the code for the RS485 interface PCB
 
