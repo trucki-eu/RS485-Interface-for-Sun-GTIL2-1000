@@ -89,7 +89,22 @@ In oder to get a fast (~100ms) AC output after a received modbus value on regist
 | DAC | 279 | 400 | 514 | 620 | 680 | 775 | 895 | 1014 | 1079 | 1222 | 1315 | 1392 | 3282 | 3673 | 12180 | 12307 | 33187 |
 
 Due to tolerances of the DAC, the 3.3 voltage regulator and the inverter itself the LUT is more or less accurate. As I only own the 1000W version, the LUT for the 2000W version might be wrong. To calibrate the LUT, write register[5]=1 and make sure that the DC supply of the inverter is strong enough to power the inverter at maximum output. The calibration will first initialize the active LUT with the standard LUT (Step 1). Starting with Step 2 the calibration will step the 17xDAC values of the LUT and save the matching AC values to the eeprom. Each step takes about 10s. The calibration is ready if register[5]=0 again.
-  
+ 
+
+2000W Version particularities:
+------------------------------
+The 2000W version is very similar to the GTIL2-1000 with some very minor particularities regarding the analog input connector RT1.
+In general both versions allow to control the AC ouput via a 0..1.67V signal. For the 1000W version the AC output (0-1000W)  is quite linear to the analog signal (0-1.67V).
+The 2000W version has a minimum AC output of 75W, which is related to 0V on the analog RT1 input. Means with the RS485 interface pcb an AC output with less than 75W is not possible. As stable control of the AC output is possible from ~100-2000W.
+![LUT2000W](/assets/images/GTIL2_2000_RT1vsAC.PNG)
+Furthermore the 2000W version does some kind of range switching from ~180W-250W.
+![Hystereses2000W](/assets/images/Hysterese_GTIL2_2000W.PNG)
+This means that AC outputs from 200W-250 are not possible and AC outputs from 180W-200W are only possible if the actual AC output is less than 200W.
+The RS485 interface pcb firmware overwrites AC setpoints from 200W-225W -> 200W and 225W-250W ->250W. If the actual AC output is > 200W the firmware overwrites AC setpoints from 180-200W -> 180W.
+For most applications these particularities are not disturbing. Using the RS485 interface pcb with a GTIL2-2000 and a 15S LiFePO4 battery I was able to a maximum stable AC output of ~2000W with the following settings:
+![Settings2000W](/assets/images/Einstellungen_GTIL2_2000_150822.PNG) 
+![Settings2000W](/assets/images/GTIL2_2000_AC_MAX.png)
+
 Standby:
 --------
 The 0W AC output standby power consuption of the SUN GTIL2-1000/2000 MPPT inverter in analog mode is about 10W on the DC side. You can reduce the standby current by setting the "Bat or solar limited current mode" voltage and the "Reboot voltage". I use 47V and 48V reboot voltage for a 15S LiFePo4 battery. With this  setting standby consuption stops as soon as the battery is below 47V. Sometimes the RS485 interface shows an AC display output of 7-9W, but the display shows 0W. I think the inverter sends 7-9W to the display, but the display shows very small AC outputs as 0W.
