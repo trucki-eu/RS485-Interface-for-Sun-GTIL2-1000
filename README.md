@@ -354,25 +354,33 @@ After you have flashed the ESPHome configuration to your device you can create a
 
 Updates:
 --------
-If you want to update the firmware on the ATm3ega328 on the RS485 interface pcb you can use the Arduinio ide.
-Just open the GTIL_RS485_DAC_Display_V1.00.ino and select
-Tools->Board:     "Arduino Pro or Pro Mini"
-Tools->Prozessor: "ATmega328P (3.3V,8MHz)"
-  
-If you connect a ISP Programmer to the ISP Port of the RS485 interface pcb you can use
-Sketch->Upload with Programmer
-  
-If you want to upload the firmware via the UART port:
+1) Download AVRDude.exe,conf,pdb from https://github.com/mariusgreuel/avrdude/releases
+2) Connect a USB TTL adapter to the RS485 Interface pcb.
 
-1)Remove R19 to use UART Port
+USB -> RS485 Interface pcb
 
-2)Connect GND,RX,TX,5V to a USB->TTL Adapter (i.e. CH340)
+5V  -> 5V
 
-3)Select Tools->Port: Com-Port of USB->TTL Adapter 
+TXD -> RXD
 
-4)Connect RST&GND Pin
+RXD -> TXD
 
-5)Press Sketch->Upload
+GND -> GND
 
-6)Release RST&GND Pin as soon as you see "Uploading..."
-  
+![USB TTL Adapter to update firmware](/assets/images/update_firmware_hardware.png) 
+
+3) Remove R19 (or J5) to use UART Port. RS485 interface pcb blinks fast green if powerd via USB.
+4) Create a new Batch file with the following content. Adapt the COM-Port to the port of your USB TTL adapter. Place all files (AVRDude exe,pdb,conf , *.hex, *.bat) a folder.
+```
+avrdude -Cavrdude.conf -v -patmega328p -carduino -PCOM9 -b57600 -D -Uflash:w:GTIL_RS485_DAC_Display_V1.04.ino.hex:i 
+pause
+```
+5) Start batch file.  AVRDude waits for manual rest of the RS485 interface pcb
+
+![AVRDude waiting for manual reset](/assets/images/AVRDude_waiting_for_manual_reset.PNG)
+
+6) Connect RST & GND on the RS485 Interace pcb shortly until AVRDude starts to flash and the green led turns off. This part might be tricky. You might have to reset the board several times. If you reset the board during the flash process you will not brick it, but you have to flash it again.
+
+7) If flashing was successful you will see this message and the green led starts blinking again.
+
+![flash successful](/assets/images/update_flash_successful.PNG)
