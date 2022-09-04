@@ -1,4 +1,45 @@
 # RS485-Interface-for-Sun-GTIL2-1000/2000
+T3PL: Trucki's 3Phase limiter for SUN GTIL2-1000/2000 inverter:
+---------------------------------------------------------------
+UPDATE 04.09.2022: Firmware 1.06 supports SDM630 Smartmeter 3Phase limiter support
+
+![Overview T3PL](/assets/images/SDM630_mode_overview.PNG)
+
+The new firmware 1.06 allows the RS485 interface pcb to communicate directly with the SDM630 smartmeter to limit the ac output power of the SUNG GTIL2 1000/2000 over three phases.
+
+In case the firmware finds a SDM630 smartmeter on startup it uses the readings of the smartmeter to control the inverters ac output to reduce the house consuption to about 50W. 
+
+The requirements for the SMD630 mode are:
+
+The modbus ID on the RS485 interface pcb is set to ID:16, R19/J5 is close to use the RS485 port
+
+![Overview SDM630Mode](/assets/images/SDM630mode.PNG)
+
+The SDM630 smartmeter is set to Addr:001, 9k6, 8N1:
+
+![Overview SDM630 Settings](/assets/images/SDM630_Settings.PNG)
+
+You can check a working communication if you see the telefon icon on the SDM630 display. The SDM630 has to be powered before the inverter. On startup of the inverter you will the the telefon icon blink x1 while the RS485 interface pcb changes to the SDM630 mode. In SDM630 mode you will the the telefon icon to be permanent on:
+
+![Overview SDM630 working communication](/assets/images/SDM630_successful_communication.PNG)
+
+If you want to start the calibration mode of the RS485 interface pcb turn the inverter off, set the SDM630 to addr: 002 and turn the inverter on again. The inverter will ramp up the ac output. The calibration is done if the ac output of the inverter is back to 0/75W. If you are beginner you should work with the standard LUT.Calibration is fine tuning.
+
+As the minimum controled output of the GTIL2-1000 is ~50W and for the GTIL2-2000 about 100W the SDM630 mode needs at least 50/100W house consumption to work properly.
+
+Optional monitoring:
+
+![Overview SDM630 ESPHome HomeAssistant monitor](/assets/images/SDM630_ESPHome_HomeAssistant_monitor.PNG)
+
+In SDM630 mode the RS485 interface pcb uses the UART TX Pin to send a status telegram every 2s. As mentioned before the R19/J5 has to be closed for SDM630 mode anyway.
+The status telegram follows the modbus protocol and contains six static start bytes: 0x10, 0x10, 0x00, 0x00, 0x00, 0x09, 0x12. The start bytes are followed by nine 16bit words of data: AC Display, AC Setpoint, VGrid, VBat, DAC Value, Calibration step, Inverter Temperature, SDM630 Power (4 byte float). The final 2 bytes is a 16bit CRC.
+
+You can use ESPHome to send the status values to HomeAssistant, ioBroker, etc. Just connect +5V, GND and RX of an ESP8266/32 module to the UART port of the RS485 interface pcb:
+
+![Overview SDM630 working communication](/assets/images/SDM630_optional_monitoring_esp8266.PNG)
+
+The ESP Module can be flashed with ESPHome. You can find the matching gtil2sdm630.yaml/h file in the /code/esphome/sdm630 folder of the repository. Please make sure to copy the gtil2sdm630.h file into your /config/ESPHome folder in order to compile/install the GTIL2SDM630 project onto your ESP.
+
 RS485 Modbus Interface for SUN GTIL2-1000/2000 MPPT inverter:
 ---------------------------------------------------------
 UPDATE 18.08.2022: The RS485 Interface pcb now works for the SUN GTIL2-2000 version, too. 
