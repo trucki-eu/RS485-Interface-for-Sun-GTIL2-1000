@@ -136,7 +136,7 @@ Due to tolerances of the DAC, the 3.3 voltage regulator and the inverter itself 
 ------------------------------
 The 2000W version is very similar to the GTIL2-1000 with some very minor particularities regarding the analog input connector RT1.
 In general both versions allow to control the AC ouput via a 0..1.67V signal. For the 1000W version the AC output (0-1000W)  is quite linear to the analog signal (0-1.67V).
-The 2000W version has a minimum AC output of 75W, which is related to 0V on the analog RT1 input. Means with the RS485 interface pcb an AC output with less than 75W is not possible. As stable control of the AC output is possible from ~100-2000W.
+The 2000W version has a minimum AC output of 75W, which is related to 0V on the analog RT1 input. Means with the RS485 interface pcb an AC output with less than 75W is not possible. A stable control of the AC output is possible from ~100-2000W.
 
 ![LUT2000W](/assets/images/GTIL2_2000_RT1vsAC.PNG)
 
@@ -151,6 +151,8 @@ For most applications these particularities are not disturbing. Using the RS485 
 ![Settings2000W](/assets/images/Einstellungen_GTIL2_2000_150822.PNG) 
 
 ![Settings2000W](/assets/images/GTIL2_2000_AC_MAX.png)
+
+!!! Do NOT run your Inverter on maximum output for a long time. It can overheat. The maximum AC output for the 1000W Version is 850W, for the 2000W version 1850W !!!
 
 Standby:
 --------
