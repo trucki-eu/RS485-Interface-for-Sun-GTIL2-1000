@@ -116,6 +116,9 @@ Register functions:
 | [3] | Read display battery [V*10]| (Update rate ~1.3s) |
 | [4] | Set / Read DAC Value; [0]=0! | (Update rate ~100ms) |
 | [5] | =1 Start Calibration. 17 Steps | (10s per step) |
+| [6] | Mirror of REG[0] [W*10] | (Update rate ~100ms) Firmware >= 1.06|
+| [7] | Temperature [0..118°C] | (Update rate ~100ms) Firmware >= 1.06|
+
 
 You can use the "Register Write" section to manipulate the output of the SUN GTIL2-1000/2000 MPPT inverter. To set an output of 50W use "Start Address: 0", "Count: 1", "Value: 500" and press "Write Single/Multiple Register(s)" . If you press "Read Input Registers" again you will see that Register[0] = 500 (Set AC Output) and Register[4] = 577 (DAC Value). Register[1] shows the AC display output power. After each display read (every 1.3s) Register[4] (DAC Value) will be corrected to adjust Register[1] (AC Display Power) as close as possible to the setpoint of Register[0] (Set AC Output). Set Register[0]=0 to turn OFF the ac output.
 The values of register[0-4] are multiplied with factor 10.
