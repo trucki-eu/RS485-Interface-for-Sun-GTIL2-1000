@@ -398,6 +398,35 @@ After you have flashed the ESPHome configuration to your device you can create a
 
 <img src="/assets/images/HomeAssistant.png" height="300">
 
+Controlling the SUN GTIL2 with Tasmota:
+---------------------------------------
+Tasmota recently got a [*Modbus Bridge*](https://github.com/tasmota/docs/blob/development/docs/Modbus-Bridge.md) which we can use to communicate with the RS485 interface pcb. For ESP8266 Tasmota needs to be compiled with Modbus bridge support. You can download a ESP8266 Tasmota firmware with Modbus support [*here*](https://github.com/trucki-eu/RS485-Interface-for-Sun-GTIL2-1000/tree/main/code/tasmota/).
+
+Once you have flashed the Tasmota firmware with modbus support to your ESP8266 you can log into the WebInterface to configure and test the modbus communication with the RS485 interface pcb.
+
+At first go to the Tastmota configuration tab and set GPIO1 = ModBr Tx und GPIO3 = ModBr Rx :
+
+![Tasmota Configuration](/assets/images/Tastmota_Configuration.PNG)
+
+After the configuration connect your ESP8266 module to the RS485 interface pcb the same way as descibed in the HomeAssistant section of this page.
+
+Then select "Consoles" in your Tasmota Webinterface and enter the following commands to configure the modbus settings:
+```
+ModbusBaudrate 9600
+ModbusSerialConfig 8N1
+```
+To set an AC Output (REG[0]) of 100W (value=1000) enter the following command in the console command input:
+```
+MODBUSSEND {"deviceaddress": 1, "functioncode": 6, "startaddress": 0, "type":"uint16", "count":1, "values":[1000]}
+```
+
+To read all Registers from the RS485 interface pcb use the following command. Use count:6 for firmware <1.06 and count:8 for firmware >=1.06
+```
+MODBUSSEND {"deviceaddress": 1, "functioncode": 3, "startaddress": 0, "type":"uint16", "count":6}
+```
+You will get the following consoles output:
+![Tasmota Configuration](/assets/images/Tasmota_Modbus_Consoles.png)
+
 Updates:
 --------
 1) Download AVRDude.exe,conf,pdb from https://github.com/mariusgreuel/avrdude/releases
