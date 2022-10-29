@@ -2,6 +2,7 @@
 T3PL: Trucki's 3Phase limiter for SUN GTIL2-1000/2000 inverter:
 ---------------------------------------------------------------
 UPDATE 29.10.2022: Trucki2Shelly Gateway connects a Shelly 3EM to Trucki's RS485 interface pcb https://github.com/trucki-eu/Trucki2Shelly-Gateway
+
 UPDATE 04.09.2022: Firmware 1.06 supports SDM630 Smartmeter 3Phase limiter support
 
 ![Overview T3PL](/assets/images/SDM630_mode_overview.PNG)
