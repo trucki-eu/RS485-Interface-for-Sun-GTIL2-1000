@@ -1,6 +1,9 @@
 # RS485-Interface-for-Sun-GTIL2-1000/2000
 T3PL: Trucki's 3Phase limiter for SUN GTIL2-1000/2000 inverter:
 ---------------------------------------------------------------
+UPDATE 28.11.2022: Adapter board to mount WEMOS modules on my pbc. To prevent stability issues with ESP8266 modules add a capacitor to my pcb:
+https://github.com/trucki-eu/Trucki2Shelly-Gateway/blob/main/README.md#wemos-adapter
+
 UPDATE 29.10.2022: Trucki2Shelly Gateway connects a Shelly 3EM to Trucki's RS485 interface pcb https://github.com/trucki-eu/Trucki2Shelly-Gateway
 
 UPDATE 04.09.2022: Firmware 1.06 supports SDM630 Smartmeter 3Phase limiter support
