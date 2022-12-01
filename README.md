@@ -311,6 +311,9 @@ The ESP8266 module has to be 5V tolerant and is directly powered from the RS485 
 
 In HomeAssistant use ESPHome to communicate with the ESP8266 module. Make sure that you are on the lastest version of ESPHome. Create a new device in ESPHome and add the folowing lines to the configuration of the new device:
 ```
+web_server:
+  port: 80
+  
 # Enable logging
 logger:
     level: DEBUG
@@ -370,6 +373,14 @@ sensor:
     accuracy_decimals: 1
     filters:
       - multiply: 0.1
+#  - platform: modbus_controller
+#    modbus_controller_id: sun
+#    name: "Temperature"
+#    id: temperature
+#    register_type: holding
+#    address: 0x07
+#    unit_of_measurement: "°C"
+#    value_type: U_WORD
 
 number:
   - platform: modbus_controller
