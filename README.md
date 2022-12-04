@@ -97,7 +97,7 @@ For a first test you can use a cheap USB RS485 converter stick from Ebay. Just c
 
 <img src="/assets/images/GTIL_with_USB_RS485_Interface.jpg" height="600">
 
-As PC software you can use any Modbus software. I.e. Modbus VCL from http://www.ozm.cz/ivobauer/modlink/In Modbus VCL first set the Modbus Client/Slave ID(J1-J4) unter "Tools->Modbus Client Options". 
+As PC software you can use any Modbus software. I.e. Modbus VCL from http://www.ozm.cz/ivobauer/modlink/ Modbus VCL first set the Modbus Client/Slave ID(J1-J4) unter "Tools->Modbus Client Options". 
 
 <img src="/assets/images/Modbus_VCL_Client Options.PNG" height="100">
 
