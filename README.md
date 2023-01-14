@@ -90,6 +90,10 @@ Modbus ID switch config:
 | 16 | ON  | ON  | ON  | ON  |
   
 After you powered the inverter you should see a slowly (1s) blinking green LED. A fast blinking (100ms) LED means a problem with the display communication. 
+
+If you want to use the RS485 PCB with the 2000W version of the SUN GTIL2 you have to close the 2000W jumper:
+
+<img src="/assets/images/GTIL2-2000W_Jumper.jpg" height="400">
   
 1st Test with PC & RS485 USB converter stick:
 ---------------------------------------------
@@ -142,6 +146,10 @@ Due to tolerances of the DAC, the 3.3 voltage regulator and the inverter itself 
 
 2000W Version particularities:
 ------------------------------
+If you want to use the RS485 PCB with the 2000W version of the SUN GTIL2 you have to close the 2000W jumper:
+
+<img src="/assets/images/GTIL2-2000W_Jumper.jpg" height="400">
+
 The 2000W version is very similar to the GTIL2-1000 with some very minor particularities regarding the analog input connector RT1.
 In general both versions allow to control the AC ouput via a 0..1.67V signal. For the 1000W version the AC output (0-1000W)  is quite linear to the analog signal (0-1.67V).
 The 2000W version has a minimum AC output of 75W, which is related to 0V on the analog RT1 input. Means with the RS485 interface pcb an AC output with less than 75W is not possible. A stable control of the AC output is possible from ~100-2000W.
