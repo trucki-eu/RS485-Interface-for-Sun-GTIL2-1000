@@ -16,7 +16,7 @@ In case the firmware finds a SDM630 smartmeter on startup it uses the readings o
 
 The requirements for the SMD630 mode are:
 
-The modbus ID on the RS485 interface pcb is set to ID:16, R19/J5 is close to use the RS485 port
+The modbus ID on the RS485 interface pcb is set to ID:16, R19/J5/(switch to RS485) is closed to use the RS485 port
 
 ![Overview SDM630Mode](/assets/images/SDM630mode.PNG)
 
@@ -36,7 +36,7 @@ Optional monitoring:
 
 ![Overview SDM630 ESPHome HomeAssistant monitor](/assets/images/SDM630_ESPHome_HomeAssistant_monitor.PNG)
 
-In SDM630 mode the RS485 interface pcb uses the UART TX Pin to send a status telegram every 2s. As mentioned before the R19/J5 has to be closed for SDM630 mode anyway.
+In SDM630 mode the RS485 interface pcb uses the UART TX Pin to send a status telegram every 2s. As mentioned before the R19/J5/(switch to RS485) has to be closed for SDM630 mode anyway.
 The status telegram follows the modbus protocol and contains six static start bytes: 0x10, 0x10, 0x00, 0x00, 0x00, 0x09, 0x12. The start bytes are followed by nine 16bit words of data: AC Display, AC Setpoint, VGrid, VBat, DAC Value, Calibration step, Inverter Temperature, SDM630 Power (4 byte float). The final 2 bytes is a 16bit CRC.
 
 You can use ESPHome to send the status values to HomeAssistant, ioBroker, etc. Just connect +5V, GND and RX of an ESP8266/32 module to the UART port of the RS485 interface pcb:
@@ -460,7 +460,7 @@ GND -> GND
 
 ![USB TTL Adapter to update firmware](/assets/images/update_firmware_hardware.png) 
 
-3) Remove R19 (or J5) to use UART Port. RS485 interface pcb blinks fast green if powerd via USB.
+3) Remove R19 (or J5 or switch to UART) to use UART Port. RS485 interface pcb blinks fast green if powerd via USB.
 4) Create a new Batch file with the following content. Adapt the COM-Port to the port of your USB TTL adapter. Place all files (AVRDude exe,pdb,conf , *.hex, *.bat) a folder.
 ```
 avrdude -Cavrdude.conf -v -patmega328p -carduino -PCOM9 -b57600 -D -Uflash:w:GTIL_RS485_DAC_Display_V1.04.ino.hex:i 
