@@ -176,6 +176,33 @@ The 0W AC output standby power consuption of the SUN GTIL2-1000/2000 MPPT invert
 
 <img src="/assets/images/Display.jpg" height="400">
 
+Reduce standby with ext. Limiter (optional):
+--------------------------------------------
+The use of the external limiter is completly optional. You only need it if a standby power of 0W is important for you.
+
+Stromsparer published (https://www.akkudoktor.net/forum/postid/87460/) to following idea to solve the 75W Standby problem of the SUN2000. He found that the the analog input (RT1), which is used by my pcb to control the ac output power of the SUN, can be overrided by the ext. limiter input. Means if you apply 5V/GND to the ext. Limiter inputs the output power of the SUN is forced to 0W.
+
+My pcb has a standby-pin which carries 5V if the AC Setpoint is set to 5V. You can connect this standby-pin and GND to the ext. limiter input of the SUN. Newer versions of my pcb even have an unpopulated conector.
+
+On the old version of the pcb you find the standby pin here:
+
+<img src="/assets/images/ext.limiter_old_trucki_pcb.JPG" height="400">
+
+<img src="/assets/images/ext.limiter_control_board.JPG" height="400">
+
+On the new pcb version there is an unpopulated connector for the standby pin:
+
+<img src="/assets/images/ext.Limiter_option_SUN2000.JPG" height="400">
+
+To use the ext. limiter you have to enable it in the settings menu of the SUN:
+
+<img src="/assets/images/ext.Limiter_option_Display_FW5.2_SUN2000.JPG" height="400">
+
+You will need the display firmware 5.2 for the ext. limiter option. If your display version is newer you can use this manual to downgrade your display firmware:
+
+https://www.der-kanal-homepage.de/dokumente-sun-1000-gtil
+
+
 UART instead of RS485:
 ----------------------
 If you want to use the UART port instead of the RS485 port just unsolder resistor R19.The UART port can be used for a direct/cross connection to a i.e. ESP8266. Please be aware that the UART port is working with 5V.  
