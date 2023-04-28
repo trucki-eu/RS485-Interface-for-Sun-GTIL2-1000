@@ -1,6 +1,8 @@
 # RS485-Interface-for-Sun-GTIL2-1000/2000
 T3PL: Trucki's 3Phase limiter for SUN GTIL2-1000/2000 inverter:
 ---------------------------------------------------------------
+UPDATE 28.04.2023: Firmware 1.08 (SN1-357) or earlier has a bug which could force the inverter to jump to it's maximum output at small ACSetpoints (0-75W). After a jump the output power should decrease slowly to 0-75W and then jump again. If your RS485 pcb is in the SN Range (1-357) I suggest to update your firmware of the RS485 board to version 1.09. Please write me an email and I will send you the update package.
+
 UPDATE 28.11.2022: Adapter board to mount WEMOS modules on my pbc. To prevent stability issues with ESP8266 modules add a capacitor to my pcb:
 https://github.com/trucki-eu/Trucki2Shelly-Gateway/blob/main/README.md#wemos-adapter
 
