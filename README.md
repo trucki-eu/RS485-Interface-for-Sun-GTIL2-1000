@@ -324,7 +324,7 @@ sudo raspi-config
 ```
 To read values use the command. If /dev/ttyAMA0 doesn't work try /dev/ttyS0 instead
 ```
-mbpoll -a 01 -b 9600 -t 3 -r 1 -c 6 /dev/ttyAMA0  
+mbpoll -a 01 -b 9600 -P none -t 3 -r 1 -c 6 /dev/ttyAMA0  
 ```
 The console output should look like this:
 
@@ -332,7 +332,7 @@ The console output should look like this:
 
 To set the inverter output to 50W use the following command. If /dev/ttyS0 doesn't work try /dev/ttyAMA0 instead
 ```
-mbpoll -a 01 -b 9600 -t4:int -r 1 /dev/ttyS0 -- 500
+mbpoll -a 01 -b 9600 -P none -t4:int -r 1 /dev/ttyS0 -- 500
 ```
 The console output should look like this:
 
