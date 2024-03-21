@@ -130,9 +130,32 @@ The 0W AC output standby power consuption of the SUN GTIL2-1000/2000 MPPT invert
 
 <img src="/assets/images/Display.jpg" height="400">
 
+Reduce standby with internal Limiter (optional):
+-------------------------------------------------
+The use of the internal limiter (Hack) is completly optional. You only need it if a standby power of 0W is important for you.
+
+Offys Werkstatt showed the internal Limiter Hack on his Youtube channel (min.20:00) https://www.youtube.com/watch?v=Ca3DW5aZkyA
+
+Trucki RS485 PCBs from 27.02.2024 or youger have integrated "internal Limiter hack". You just have to connect U7 (RS485 Trucki pcb) to the yellow U7 connector in the SUN inverter with the deliverd 2Pin cable an enable the int. Limiter in the SUN Display settings menu.
+
+Older PCBs can connect the CON2 Connector on the RS485 Trucki pcb via a 75 Ohm Resitor to the yellow U7 connector in the SUN:
+
+<img src="/assets/images/internal Limiter Hack.jpg" height="400">
+
+The Sun display settings for the internal limiter hack should look like this:
+
+<img src="/assets/images/int limiter display settings.jpg" height="400">
+
+In the Sun main menu you will see a small wattage value for the int. Limiter. The value has nothing to say. It should be 0W or less if the SUN is off and should have a positive value if the SUN outputs power:
+
+<img src="/assets/images/int limiter hack output power" height="400">
+
+
 Reduce standby with ext. Limiter (optional):
 --------------------------------------------
 The use of the external limiter is completly optional. You only need it if a standby power of 0W is important for you.
+
+For Trucki RS485 PCBs from 27.02.2024 or younger you should use the internal Limiter hack or bridge the 75 Ohm Resistor R21.
 
 Stromsparer published (https://www.akkudoktor.net/forum/postid/87460/) to following idea to solve the 75W Standby problem of the SUN2000. He found that the the analog input (RT1), which is used by my pcb to control the ac output power of the SUN, can be overrided by the ext. limiter input. Means if you apply 5V/GND to the ext. Limiter inputs the output power of the SUN is forced to 0W.
 
