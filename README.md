@@ -146,6 +146,8 @@ The Sun display settings for the internal limiter hack should look like this:
 
 <img src="/assets/images/int limiter display settings.jpg" height="400">
 
+!!! Make sure to repower/reboot the SUN inverter after you have changed settings !!!
+
 In the Sun main menu you will see a small wattage value for the int. Limiter. The value has nothing to say. It should be 0W or less if the SUN is off and should have a positive value if the SUN outputs power.
 
 <img src="/assets/images/int limiter hack output power.jpg" height="400">
