@@ -156,7 +156,9 @@ If not try to change L and N on the AC Output. Yes, the polarity (N,L) for the i
 
 <img src="/assets/images/AC_Connector_int_Limiter_Hack.png" height="400">
 
-There were two SUN2000 (not SUN1000!) reported where the 75 Ohm restistor had to be reduced to 50 Ohm. Otherwise over ~1000W the output power jumped between 0W and 1000W every ~1s. 
+There were some SUN2000 (not SUN1000!) reported where the 75 Ohm restistor had to be reduced to 0 Ohm. Otherwise over ~1000W the output power jumped between 0W and 1000W every ~1s:
+
+<img src="/assets/images/SUN2000_0Ohm_int_Limiter_Hack.png" height="400">
 
 Reduce standby with ext. Limiter (optional):
 --------------------------------------------
