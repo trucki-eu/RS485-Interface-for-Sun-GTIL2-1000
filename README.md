@@ -1,6 +1,8 @@
 # RS485-Interface-for-Sun-GTIL2-1000/2000
 RS485 Modbus Interface for SUN GTIL2-1000/2000 MPPT inverter:
 ---------------------------------------------------------
+UPDATE 11.10.2025: RS485 Interface from 13.08.2025 or younger now uses timer simulation to switch the SUN inverter ON / OFF (0W). No more need for ext. or int. Limiter hack. Do not enable any ext./int Limiter in SUN Display settings. Only 2 cables are needed between the SUN inverter and the RS485 pcb.
+
 UPDATE 18.08.2022: The RS485 Interface pcb now works for the SUN GTIL2-2000 version, too. 
 
 ![Overview](/assets/images/overview.PNG)
@@ -13,7 +15,7 @@ However the usage of this design is still at your own risk. Please make sure tha
 
 Mounting the RS485 interface pcb:
 ---------------------------------
-![RS485 Interface](/assets/images/RS485_Interface.jpg)
+![RS485 Interface](/assets/images/RS485_Timer_simulation.jpg)
 Mouting the RS485 interface in the SUN GTIL2-1000/2000 MPPT is easy Plug'n Play. No soldering, no permanent modifications on the inverter. Just unscrew the 8x screws to open the inverter and disconect the the display cable on the inverter side. Mount two M4x10mm threaded standoff spacers in the prepared threads in the top area of the inverter. Mount the RS485 interface pcb with two spacers. Use a 1:1 4Pin 2.54mm JST cable to connect the inverter to the RS485 interface pcb and use the 2nd 4Pin connector on the RS485 interface pcb for the cable to the display. Use a 
 1:1 2Pin 2.54mm JST cable to connect the RS485 interface DAC output (RT1) to the analog RT1 input of the inverter. Disconnect the cable for the external/internal limiter from the inverter and connect it to the 2 Pin RS485 port of the RS485 interface pcb.
 
@@ -132,6 +134,8 @@ The 0W AC output standby power consuption of the SUN GTIL2-1000/2000 MPPT invert
 
 Reduce standby with internal Limiter (optional):
 -------------------------------------------------
+!!! RS485 Interface from 13.08.2025 or younger now uses timer simulation to switch the SUN inverter ON / OFF (0W)!!! No more need for ext. or int. Limiter hack. Do not enable any ext./int Limiter in SUN Display settings. Only 2 cables are needed between the SUN inverter and the RS485 pcb.
+
 The use of the internal limiter (Hack) is completly optional. You only need it if a standby power of 0W is important for you.
 
 Offys Werkstatt showed the internal Limiter Hack on his Youtube channel (min.20:00) https://www.youtube.com/watch?v=Ca3DW5aZkyA
@@ -162,6 +166,8 @@ There were some SUN2000 (not SUN1000!) reported where the 75 Ohm restistor had t
 
 Reduce standby with ext. Limiter (optional):
 --------------------------------------------
+!!! RS485 Interface from 13.08.2025 or younger now uses timer simulation to switch the SUN inverter ON / OFF (0W)!!! No more need for ext. or int. Limiter hack. Do not enable any ext./int Limiter in SUN Display settings. Only 2 cables are needed between the SUN inverter and the RS485 pcb.
+
 The use of the external limiter is completly optional. You only need it if a standby power of 0W is important for you.
 
 For Trucki RS485 PCBs from 27.02.2024 or younger you should use the internal Limiter hack or bridge the 75 Ohm Resistor R21.
