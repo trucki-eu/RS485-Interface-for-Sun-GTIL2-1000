@@ -24,6 +24,16 @@ Mouting the RS485 interface in the SUN GTIL2-1000/2000 MPPT is easy Plug'n Play.
 
 Make sure to select the Modbus slave ID on the RS485 interface pcb with J1 - J4 before closing the case.
 
+RS485 interface pcb with T2SG Wifi/LAN Stick:
+---------------------------------------------
+If you want to use the RS485 interface pcb with the Trucki2ShellyGateway you have 2 options. You can mount a Wemos/TruMos Wifi Board on the RS485 interface pcb. Or instead the Wifi Board you can use a T2SG WIFI or LAN Stick. For the Sticks you have to replace the RS232 DB9 Board of the SUN inverter with the RS232/RS485 Adapter:
+
+<img src="/assets/images/RS232-Adapter-for-RS485-pcb.jpg" width="500">
+
+Make sure that no Wemos/TruMos Board is installed, J5 is switched to Uart and the 4Pin and the 8Pin cables are both connected to the RS232 RS485 pcb Adapter:
+
+<img src="/assets/images/RS232 Adapter with RS485 pcb.jpg" width="500">
+
 Modbus ID switch config: 
 ------------------------
 | ID | J1 | J2 | J3 | J4 |
